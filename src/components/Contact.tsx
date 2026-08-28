@@ -28,7 +28,7 @@ export default function Contact() {
   const horaires = (infos?.horaires ?? {}) as Record<string, string>;
 
   return (
-    <section id="contact" className="bg-white py-20 lg:py-28 relative">
+    <section id="contact" className="bg-white pt-32 pb-20 lg:pt-40 lg:pb-28 relative">
       <div ref={ref} className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className={`reveal ${visible ? 'is-visible' : ''}`}>
           <SectionHeading

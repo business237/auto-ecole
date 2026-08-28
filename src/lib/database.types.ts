@@ -8,6 +8,10 @@ export interface Formation {
     inclus: string[] | null;
     ordre: number;
     actif: boolean;
+    prix_reduit: number | null;
+    motif_reduction: string | null;
+    reduction_debut: string | null;
+    reduction_fin: string | null;
     created_at: string;
     updated_at: string;
 }
@@ -16,6 +20,7 @@ export interface GalerieImage {
     id: string;
     url: string;
     alt: string | null;
+    description: string | null;
     ordre: number;
     created_at: string;
 }
@@ -64,5 +69,24 @@ export interface MessageContact {
     sujet: string | null;
     message: string;
     lu: boolean;
+    created_at: string;
+}
+export interface Personnel {
+    id: string;
+    nom: string;
+    role: string;
+    photo_url: string | null;
+    bio: string | null;
+    ordre: number;
+    actif: boolean;
+    created_at: string;
+}
+export interface OffreSpeciale {
+    id: string;
+    titre: string;
+    description: string | null;
+    lien: string | null;
+    date_fin: string;
+    actif: boolean;
     created_at: string;
 }

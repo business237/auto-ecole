@@ -4,6 +4,8 @@ import { supabase } from '@/lib/supabase';
 
 const TABS = [
     { to: '/admin/formations', label: 'Formations' },
+    { to: '/admin/offres', label: 'Offres spéciales' },
+    { to: '/admin/personnel', label: 'Personnel' },
     { to: '/admin/galerie', label: 'Galerie' },
     { to: '/admin/inscriptions', label: 'Inscriptions' },
     { to: '/admin/messages', label: 'Messages' },

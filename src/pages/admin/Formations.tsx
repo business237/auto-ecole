@@ -15,6 +15,10 @@ const EMPTY_FORM: FormState = {
     inclus: [],
     ordre: 0,
     actif: true,
+    prix_reduit: null,
+    motif_reduction: '',
+    reduction_debut: null,
+    reduction_fin: null,
 };
 
 export default function Formations() {
@@ -58,6 +62,10 @@ export default function Formations() {
             inclus: f.inclus,
             ordre: f.ordre,
             actif: f.actif,
+            prix_reduit: f.prix_reduit,
+            motif_reduction: f.motif_reduction,
+            reduction_debut: f.reduction_debut,
+            reduction_fin: f.reduction_fin,
         });
         setInclusText((f.inclus ?? []).join(', '));
         setShowForm(true);
@@ -234,6 +242,60 @@ export default function Formations() {
                                     onChange={(e) => setForm({ ...form, ordre: Number(e.target.value) })}
                                     className="w-full rounded-lg border px-3 py-2"
                                 />
+                            </div>
+
+                            <div className="mt-4 rounded-xl border border-pacifique-red-100 bg-pacifique-red-50/40 p-4">
+                                <p className="mb-3 text-xs font-bold uppercase tracking-wide text-pacifique-red-600">
+                                    Réduction (optionnel)
+                                </p>
+
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="mb-1 block text-sm font-medium">Prix réduit</label>
+                                        <input
+                                            type="number"
+                                            value={form.prix_reduit ?? ''}
+                                            onChange={(e) =>
+                                                setForm({ ...form, prix_reduit: e.target.value ? Number(e.target.value) : null })
+                                            }
+                                            className="w-full rounded-lg border px-3 py-2"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="mb-1 block text-sm font-medium">Motif</label>
+                                        <input
+                                            value={form.motif_reduction ?? ''}
+                                            onChange={(e) => setForm({ ...form, motif_reduction: e.target.value })}
+                                            placeholder="Ex: Rentrée scolaire"
+                                            className="w-full rounded-lg border px-3 py-2"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="mt-3 grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="mb-1 block text-sm font-medium">Début</label>
+                                        <input
+                                            type="date"
+                                            value={form.reduction_debut ?? ''}
+                                            onChange={(e) => setForm({ ...form, reduction_debut: e.target.value || null })}
+                                            className="w-full rounded-lg border px-3 py-2"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="mb-1 block text-sm font-medium">Fin</label>
+                                        <input
+                                            type="date"
+                                            value={form.reduction_fin ?? ''}
+                                            onChange={(e) => setForm({ ...form, reduction_fin: e.target.value || null })}
+                                            className="w-full rounded-lg border px-3 py-2"
+                                        />
+                                    </div>
+                                </div>
+
+                                <p className="mt-2 text-xs text-pacifique-navy-700/50">
+                                    Laisse "Prix réduit" vide pour ne pas afficher de réduction sur cette formation.
+                                </p>
                             </div>
                         </div>
 

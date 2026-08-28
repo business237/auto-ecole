@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import { Check, Sparkles, ArrowRight, MessageCircle } from 'lucide-react';
 import { SectionHeading } from '@/components/ui';
 import { useReveal } from '@/lib/hooks';
-import { useFormations, useInfosSite, buildWhatsappLink } from '@/lib/useSiteData';
+import { useFormations, useInfosSite, buildWhatsappLink, reductionActive } from '@/lib/useSiteData';
 import { useAuth } from '@/lib/useAuth';
 import PermisIcon, { getPermisCategory } from '@/components/ui/PermisIcon';
+
 
 export default function Formation() {
   const { ref, visible } = useReveal<HTMLDivElement>();
@@ -13,7 +14,7 @@ export default function Formation() {
   const { isAuthenticated } = useAuth();
 
   return (
-    <section id="formations" className="bg-white py-20 lg:py-28">
+    <section id="formations" className="bg-white pt-32 pb-20 lg:pt-40 lg:pb-28">
       <div ref={ref} className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className={`reveal ${visible ? 'is-visible' : ''}`}>
           <SectionHeading
@@ -50,11 +51,10 @@ export default function Formation() {
               return (
                 <div
                   key={f.id}
-                  className={`reveal relative flex flex-col justify-between rounded-3xl border ${
-                    popular
+                  className={`reveal relative flex flex-col justify-between rounded-3xl border ${popular
                       ? 'border-pacifique-blue-500 bg-gradient-to-b from-pacifique-blue-50/40 to-white shadow-xl shadow-pacifique-blue-500/10'
                       : 'border-gray-200/80 bg-white shadow-sm hover:shadow-lg'
-                  } p-7 transition-all duration-300 ${visible ? 'is-visible' : ''}`}
+                    } p-7 transition-all duration-300 ${visible ? 'is-visible' : ''}`}
                   style={{ transitionDelay: `${idx * 100}ms` }}
                 >
                   {popular && (
@@ -68,11 +68,10 @@ export default function Formation() {
                     {/* Top Row: Specific Permis Icon + Duration Badge */}
                     <div className="flex items-center justify-between">
                       <div
-                        className={`flex h-13 w-13 items-center justify-center rounded-2xl p-2.5 transition-transform hover:scale-105 shadow-sm ${
-                          popular
+                        className={`flex h-13 w-13 items-center justify-center rounded-2xl p-2.5 transition-transform hover:scale-105 shadow-sm ${popular
                             ? 'bg-pacifique-blue-600 text-white shadow-pacifique-blue-600/30'
                             : 'bg-pacifique-navy-900 text-white shadow-pacifique-navy-900/20'
-                        }`}
+                          }`}
                         title={category.label}
                       >
                         <PermisIcon titre={f.titre} className="h-7 w-7" size={28} />
@@ -95,9 +94,21 @@ export default function Formation() {
                     </h3>
 
                     {priceLabel && (
-                      <p className="mt-1 text-sm font-extrabold text-pacifique-blue-600">
-                        {priceLabel}
-                      </p>
+                      reductionActive(f) ? (
+                        <div className="mt-1 flex flex-wrap items-center gap-2">
+                          <span className="text-xs text-pacifique-navy-700/40 line-through">{priceLabel}</span>
+                          <span className="text-sm font-bold text-pacifique-red-600">
+                            {f.prix_reduit?.toLocaleString('fr-FR')} {f.devise}
+                          </span>
+                          {f.motif_reduction && (
+                            <span className="rounded-full bg-pacifique-red-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-pacifique-red-600">
+                              {f.motif_reduction}
+                            </span>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="mt-1 text-sm font-semibold text-pacifique-blue-600">{priceLabel}</p>
+                      )
                     )}
 
                     {f.description && (
@@ -122,11 +133,10 @@ export default function Formation() {
                   <div className="mt-8 pt-4 border-t border-gray-100 space-y-2.5">
                     <Link
                       to={targetLink}
-                      className={`flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-xs font-bold transition-all duration-300 active:scale-[0.98] ${
-                        popular
+                      className={`flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-xs font-bold transition-all duration-300 active:scale-[0.98] ${popular
                           ? 'bg-pacifique-red-500 text-white hover:bg-pacifique-red-600 shadow-md shadow-pacifique-red-500/25'
                           : 'bg-pacifique-navy-900 text-white hover:bg-pacifique-navy-800'
-                      }`}
+                        }`}
                     >
                       <span>{buttonLabel}</span>
                       <ArrowRight className="h-3.5 w-3.5" />

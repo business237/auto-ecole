@@ -7,12 +7,11 @@ import { useInfosSite, buildWhatsappLink, buildTelLink } from '@/lib/useSiteData
 import { useAuth } from '@/lib/useAuth';
 
 const NAV_LINKS = [
-  { href: '#accueil', label: 'Accueil' },
-  { href: '#apropos', label: 'À propos' },
-  { href: '#formations', label: 'Formations' },
-  { href: '#approche', label: 'Notre approche' },
-  { href: '#galerie', label: 'Galerie' },
-  { href: '#contact', label: 'Contact' },
+  { to: '/', label: 'Accueil' },
+  { to: '/a-propos', label: 'À propos' },
+  { to: '/formations', label: 'Formations' },
+  { to: '/galerie', label: 'Galerie' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 export default function Navbar() {
@@ -50,7 +49,7 @@ export default function Navbar() {
           }`}
         >
           {/* Logo */}
-          <a href="#accueil" className="group flex items-center gap-3" aria-label="Auto-École Pacifique — accueil">
+          <Link to="/" className="group flex items-center gap-3" aria-label="Auto-École Pacifique — accueil">
             <span className="relative flex h-10 w-10 overflow-hidden items-center justify-center rounded-xl bg-white shadow-sm border border-gray-100 transition-transform duration-300 group-hover:scale-105">
               <img src="/images/logo.jpg" alt="Logo Auto-École Pacifique" className="h-full w-full object-contain" />
             </span>
@@ -62,18 +61,18 @@ export default function Navbar() {
                 Auto-École Bilingue
               </span>
             </span>
-          </a>
+          </Link>
 
           {/* Desktop nav */}
           <ul className="hidden items-center gap-1 lg:flex">
             {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
+              <li key={link.to}>
+                <Link
+                  to={link.to}
                   className="relative rounded-lg px-3.5 py-2 text-sm font-medium text-pacifique-navy-800 transition-colors hover:text-pacifique-blue-600"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -146,14 +145,14 @@ export default function Navbar() {
           </div>
           <ul className="flex flex-col gap-1 px-3 py-4">
             {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
+              <li key={link.to}>
+                <Link
+                  to={link.to}
                   onClick={() => setOpen(false)}
                   className="block rounded-lg px-4 py-3 text-base font-medium text-pacifique-navy-800 transition-colors hover:bg-pacifique-blue-50 hover:text-pacifique-blue-600"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

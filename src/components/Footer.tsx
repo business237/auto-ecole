@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Phone, MapPin, MessageCircle } from 'lucide-react';
 import { SITE } from '@/lib/site';
 import { useInfosSite, buildWhatsappLink, buildTelLink } from '@/lib/useSiteData';
@@ -12,12 +13,11 @@ function TikTokIcon({ className }: { className?: string }) {
 }
 
 const NAV = [
-  { href: '#accueil', label: 'Accueil' },
-  { href: '#apropos', label: 'À propos' },
-  { href: '#formations', label: 'Formations' },
-  { href: '#galerie', label: 'Galerie' },
-  { href: '#faq', label: 'FAQ' },
-  { href: '#contact', label: 'Contact' },
+  { to: '/', label: 'Accueil' },
+  { to: '/a-propos', label: 'À propos' },
+  { to: '/formations', label: 'Formations' },
+  { to: '/galerie', label: 'Galerie' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 export default function Footer() {
@@ -88,8 +88,8 @@ export default function Footer() {
             <h4 className="font-display text-sm font-bold uppercase tracking-wider text-white">Navigation</h4>
             <ul className="mt-4 space-y-2.5">
               {NAV.map((n) => (
-                <li key={n.href}>
-                  <a href={n.href} className="text-sm text-pacifique-blue-100/60 transition-colors hover:text-pacifique-blue-400">{n.label}</a>
+                <li key={n.to}>
+                  <Link to={n.to} className="text-sm text-pacifique-blue-100/60 transition-colors hover:text-pacifique-blue-400">{n.label}</Link>
                 </li>
               ))}
             </ul>
