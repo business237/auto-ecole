@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Menu, X, Phone, MessageCircle, User } from 'lucide-react';
+import { Menu, X, Phone, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SITE } from '@/lib/site';
 import { useScrolled } from '@/lib/hooks';
 import { useInfosSite, buildWhatsappLink, buildTelLink } from '@/lib/useSiteData';
-import { useAuth } from '@/lib/useAuth';
 
 const NAV_LINKS = [
   { to: '/', label: 'Accueil' },
   { to: '/a-propos', label: 'À propos' },
   { to: '/formations', label: 'Formations' },
+  { to: '/permis', label: 'Tous les permis' },
   { to: '/galerie', label: 'Galerie' },
   { to: '/contact', label: 'Contact' },
 ];
@@ -18,7 +18,6 @@ export default function Navbar() {
   const scrolled = useScrolled(40);
   const [open, setOpen] = useState(false);
   const { infos } = useInfosSite();
-  const { isAuthenticated, initials } = useAuth();
 
   const phone = infos?.telephone || SITE.phone;
   const telHref = buildTelLink(phone);
@@ -79,24 +78,18 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden items-center gap-3 lg:flex">
-            {isAuthenticated ? (
-              <Link
-                to="/mon-compte"
-                className="group flex items-center gap-2.5 rounded-full border border-pacifique-navy-900/15 bg-white px-4 py-2 text-sm font-bold text-pacifique-navy-900 shadow-sm transition hover:border-pacifique-blue-500 hover:bg-pacifique-blue-50/50"
-              >
-                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-pacifique-navy-900 to-pacifique-blue-600 text-xs font-bold text-white shadow-inner">
-                  {initials}
-                </span>
-                <span>Mon Espace</span>
-              </Link>
-            ) : (
-              <Link
-                to="/inscription"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-pacifique-red-500 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-pacifique-red-500/25 transition-all duration-300 hover:bg-pacifique-red-600 hover:shadow-pacifique-red-500/40 active:scale-95"
-              >
-                S'inscrire
-              </Link>
-            )}
+            <Link
+              to="/suivre-ma-demande"
+              className="text-sm font-medium text-pacifique-navy-700 transition-colors hover:text-pacifique-blue-600"
+            >
+              Suivre ma demande
+            </Link>
+            <Link
+              to="/inscription"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-pacifique-red-500 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-pacifique-red-500/25 transition-all duration-300 hover:bg-pacifique-red-600 hover:shadow-pacifique-red-500/40 active:scale-95"
+            >
+              S'inscrire
+            </Link>
           </div>
 
           {/* Mobile toggle */}
@@ -157,26 +150,20 @@ export default function Navbar() {
             ))}
           </ul>
           <div className="mt-auto space-y-3 border-t border-gray-100 p-5">
-            {isAuthenticated ? (
-              <Link
-                to="/mon-compte"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-center gap-2.5 rounded-full border border-pacifique-navy-900/15 bg-pacifique-navy-900 px-5 py-3 text-sm font-bold text-white shadow-md"
-              >
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-pacifique-blue-500 text-xs font-bold text-white">
-                  {initials}
-                </span>
-                Mon Espace Candidat
-              </Link>
-            ) : (
-              <Link
-                to="/inscription"
-                onClick={() => setOpen(false)}
-                className="flex items-center justify-center rounded-full bg-pacifique-red-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-pacifique-red-500/25 transition-transform active:scale-95"
-              >
-                S'inscrire / Connexion
-              </Link>
-            )}
+            <Link
+              to="/suivre-ma-demande"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-center rounded-full border border-pacifique-navy-900/15 bg-pacifique-navy-50 px-5 py-3 text-sm font-semibold text-pacifique-navy-800 transition-transform active:scale-95"
+            >
+              Suivre ma demande
+            </Link>
+            <Link
+              to="/inscription"
+              onClick={() => setOpen(false)}
+              className="flex items-center justify-center rounded-full bg-pacifique-red-500 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-pacifique-red-500/25 transition-transform active:scale-95"
+            >
+              S'inscrire
+            </Link>
             <a
               href={whatsappHref}
               target="_blank"

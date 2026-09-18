@@ -1,6 +1,9 @@
 export interface Formation {
     id: string;
     titre: string;
+    categorie_id: string | null;
+    image_url: string | null;
+    mis_en_avant: boolean;
     description: string | null;
     prix: number | null;
     devise: string;
@@ -14,6 +17,16 @@ export interface Formation {
     reduction_fin: string | null;
     created_at: string;
     updated_at: string;
+}
+
+export interface CategorieFormation {
+    id: string;
+    titre: string;
+    slug: string;
+    description: string | null;
+    ordre: number;
+    actif: boolean;
+    created_at: string;
 }
 
 export interface GalerieImage {
@@ -35,6 +48,8 @@ export interface InfosSite {
     facebook: string | null;
     instagram: string | null;
     tiktok: string | null;
+    numero_momo: string | null;
+    numero_om: string | null;
 }
 export interface Profile {
     id: string;
@@ -44,21 +59,43 @@ export interface Profile {
     created_at: string;
 }
 
-export interface Inscription {
+export interface Candidate {
     id: string;
-    user_id: string;
     nom: string;
-    prenom: string | null;
-    email: string;
-    telephone: string;
+    prenom: string;
     date_naissance: string | null;
-    sexe: 'M' | 'F' | null;
-    ville: string | null;
-    adresse: string | null;
-    formation_id: string | null;
-    message: string | null;
-    statut: 'en_attente' | 'dossier_incomplet' | 'valide' | 'formation_en_cours' | 'termine' | 'refusee';
+    lieu_naissance: string | null;
+    telephone: string;
+    numero_cni: string | null;
+    date_delivrance: string | null;
     created_at: string;
+}
+
+export type ApplicationStatut =
+    | 'nouveau' | 'a_verifier' | 'valide' | 'formation_en_cours' | 'termine' | 'incomplet' | 'refuse';
+
+export interface Application {
+    id: string;
+    candidate_id: string;
+    formation_id: string | null;
+    numero_dossier: string;
+    statut: ApplicationStatut;
+    created_at: string;
+    updated_at: string;
+}
+
+export type PaymentStatut = 'en_attente' | 'confirme' | 'rejete';
+export type PaymentMethode = 'mtn_momo' | 'orange_money' | 'sur_place';
+
+export interface Payment {
+    id: string;
+    application_id: string;
+    montant: number | null;
+    methode: PaymentMethode | null;
+    reference_transaction: string | null;
+    statut: PaymentStatut;
+    created_at: string;
+    confirme_at: string | null;
 }
 
 export interface MessageContact {

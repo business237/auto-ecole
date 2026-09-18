@@ -77,7 +77,7 @@ export default function Hero() {
           <div className="animate-fade-up mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-pacifique-navy-700/70 [animation-delay:400ms]">
             <span className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-pacifique-blue-600" />
-              {infos?.adresse || 'Kribi — Dombe'}
+              {infos?.adresse || SITE.address}
             </span>
             <a href={telLink} className="flex items-center gap-2 font-semibold transition-colors hover:text-pacifique-blue-600">
               <Phone className="h-4 w-4 text-pacifique-blue-600" />

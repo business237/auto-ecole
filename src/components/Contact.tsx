@@ -3,19 +3,17 @@ import { Phone, MessageCircle, Send, CheckCircle2, MapPin, Clock, Mail, UserPlus
 import { Link } from 'react-router-dom';
 import { SectionHeading } from '@/components/ui';
 import { useReveal } from '@/lib/hooks';
-import { useAuth } from '@/lib/useAuth';
 import { useInfosSite, buildWhatsappLink, buildTelLink } from '@/lib/useSiteData';
 import { supabase } from '@/lib/supabase';
 
 export default function Contact() {
   const { ref, visible } = useReveal<HTMLDivElement>();
   const { infos } = useInfosSite();
-  const { isAuthenticated, isAdmin } = useAuth();
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({ nom: '', telephone: '', email: '', sujet: '', message: '' });
 
-  const inscriptionLink = isAdmin ? null : isAuthenticated ? '/mon-compte/nouvelle-demande' : '/inscription';
+  const inscriptionLink = '/inscription';
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();

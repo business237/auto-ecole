@@ -45,6 +45,8 @@ export default function Infos() {
             <Field label="Adresse" value={infos.adresse ?? ''} onChange={(v) => update('adresse', v)} />
             <Field label="Téléphone" value={infos.telephone ?? ''} onChange={(v) => update('telephone', v)} />
             <Field label="WhatsApp" value={infos.whatsapp ?? ''} onChange={(v) => update('whatsapp', v)} />
+            <Field label="Numéro MTN Mobile Money" value={infos.numero_momo ?? ''} onChange={(v) => update('numero_momo', v)} />
+            <Field label="Numéro Orange Money" value={infos.numero_om ?? ''} onChange={(v) => update('numero_om', v)} />
             <Field label="Email" value={infos.email ?? ''} onChange={(v) => update('email', v)} />
 
             <div className="grid grid-cols-2 gap-3">

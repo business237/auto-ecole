@@ -3,19 +3,19 @@ import { useReveal } from '@/lib/hooks';
 import { useFormationsParCategorie } from '@/lib/useSiteData';
 import FormationCard from '@/components/FormationCard';
 
-export default function Formation() {
+export default function Permis() {
   const { ref, visible } = useReveal<HTMLDivElement>();
   const { categories = [], loading } = useFormationsParCategorie();
   const hasFormations = categories.some((category) => category.formations.length > 0);
 
   return (
-    <section id="formations" className="bg-white pt-32 pb-20 lg:pt-40 lg:pb-28">
+    <main className="bg-pacifique-offwhite pb-20 pt-32 lg:pb-28 lg:pt-40">
       <div ref={ref} className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className={`reveal ${visible ? 'is-visible' : ''}`}>
           <SectionHeading
-            eyebrow="Nos Formations"
-            title="Des formules adaptées à tous vos besoins"
-            subtitle="Découvrez nos programmes d'apprentissage conçus pour vous mener au succès avec sérénité."
+            eyebrow="Catalogue"
+            title="Tous nos permis"
+            subtitle="Explorez toutes nos formations actives et choisissez le parcours adapté à votre projet."
             centered
           />
         </div>
@@ -54,6 +54,6 @@ export default function Formation() {
           </div>
         )}
       </div>
-    </section>
+    </main>
   );
 }

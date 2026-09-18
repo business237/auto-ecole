@@ -5,18 +5,18 @@ import Layout from './components/Layout.tsx';
 import Home from './pages/Home.tsx';
 import APropos from './pages/APropos.tsx';
 import FormationsPage from './pages/FormationsPage.tsx';
+import Permis from './pages/Permis.tsx';
 import GaleriePage from './pages/GaleriePage.tsx';
 import ContactPage from './pages/ContactPage.tsx';
-import ClientLogin from './pages/client/Login.tsx';
-import ClientSignup from './pages/client/Signup.tsx';
-import ClientProtectedRoute from './pages/client/ClientProtectedRoute.tsx';
-import MonCompte from './pages/client/MonCompte.tsx';
 import NouvelleDemande from './pages/client/NouvelleDemande.tsx';
+import SuiviDossier from './pages/client/SuiviDossier.tsx';
+import PaiementRetour from './pages/client/PaiementRetour.tsx';
 import Formations from './pages/admin/Formations.tsx';
 import OffresSpeciales from './pages/admin/OffresSpeciales.tsx';
 import PersonnelAdmin from './pages/admin/Personnel.tsx';
 import Galerie from './pages/admin/Galerie.tsx';
 import Inscriptions from './pages/admin/Inscriptions.tsx';
+import SuivreDemande from './pages/client/SuivreDemande.tsx';
 import Messages from './pages/admin/Messages.tsx';
 import Infos from './pages/admin/Infos.tsx';
 import Login from './pages/admin/Login.tsx';
@@ -33,15 +33,16 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<Home />} />
           <Route path="/a-propos" element={<APropos />} />
           <Route path="/formations" element={<FormationsPage />} />
+          <Route path="/permis" element={<Permis />} />
           <Route path="/galerie" element={<GaleriePage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Route>
 
-        {/* Espace Client */}
-        <Route path="/connexion" element={<ClientLogin />} />
-        <Route path="/inscription" element={<ClientSignup />} />
-        <Route path="/mon-compte" element={<ClientProtectedRoute><MonCompte /></ClientProtectedRoute>} />
-        <Route path="/mon-compte/nouvelle-demande" element={<ClientProtectedRoute><NouvelleDemande /></ClientProtectedRoute>} />
+        {/* Formulaire d'inscription — sans compte requis */}
+        <Route path="/inscription" element={<NouvelleDemande />} />
+        <Route path="/suivre-ma-demande" element={<SuivreDemande />} />
+        <Route path="/suivi/:numeroDossier" element={<SuiviDossier />} />
+        <Route path="/paiement/retour" element={<PaiementRetour />} />
 
         {/* Espace Administration */}
         <Route path="/admin/login" element={<Login />} />

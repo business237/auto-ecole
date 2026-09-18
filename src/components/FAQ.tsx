@@ -23,7 +23,7 @@ const FAQS = [
   },
   {
     question: 'Où se déroulent les cours et les leçons de conduite à Kribi ?',
-    answer: 'Les cours théoriques ont lieu dans nos salles aménagées à Kribi (Quartier Dombe). Les leçons pratiques s’effectuent sur nos pistes d’entraînement puis sur le réseau routier de Kribi et ses grands axes.',
+    answer: 'Les cours théoriques ont lieu dans nos salles aménagées à Kribi, Dombe - Derrière Bocom. Les leçons pratiques s’effectuent sur nos pistes d’entraînement puis sur le réseau routier de Kribi et ses grands axes.',
   },
   {
     question: 'Proposez-vous des cours le week-end ou en soirée ?',

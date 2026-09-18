@@ -1,83 +1,61 @@
-import { useEffect, useState, useCallback } from 'react';
-import type { Session, User } from '@supabase/supabase-js';
+import { useEffect, useState } from 'react';
+import type { Session } from '@supabase/supabase-js';
 import { supabase } from './supabase';
-import type { Profile } from './database.types';
 
-export function getInitials(name?: string | null, email?: string | null): string {
-    if (name && name.trim()) {
-        const parts = name.trim().split(/\s+/).filter(Boolean);
-        if (parts.length >= 2) {
-            return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-        }
-        return name.trim().slice(0, 2).toUpperCase();
-    }
-    if (email) {
-        const handle = email.split('@')[0] || '';
-        return handle.slice(0, 2).toUpperCase();
-    }
-    return 'PA';
+interface Profile {
+    nom_complet: string | null;
+    telephone: string | null;
+    role: 'client' | 'admin';
 }
 
 export function useAuth() {
     const [session, setSession] = useState<Session | null>(null);
     const [profile, setProfile] = useState<Profile | null>(null);
-    const [role, setRole] = useState<'client' | 'admin' | null>(null);
     const [loading, setLoading] = useState(true);
 
-    const loadProfile = useCallback(async (userId: string) => {
-        try {
-            const { data } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
-            if (data) {
-                setProfile(data as Profile);
-                setRole((data.role as 'client' | 'admin') ?? 'client');
-            } else {
-                setRole('client');
-            }
-        } catch {
-            setRole('client');
-        }
-    }, []);
+    async function loadProfile(userId: string) {
+        const { data } = await supabase
+            .from('profiles')
+            .select('nom_complet, telephone, role')
+            .eq('id', userId)
+            .single();
+        setProfile(data as Profile | null);
+    }
 
     useEffect(() => {
         supabase.auth.getSession().then(async ({ data }) => {
             setSession(data.session);
-            if (data.session) {
-                await loadProfile(data.session.user.id);
-            }
+            if (data.session) await loadProfile(data.session.user.id);
             setLoading(false);
         });
 
-        const { data: listener } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
-            setSession(newSession);
-            if (newSession) {
-                await loadProfile(newSession.user.id);
-            } else {
-                setProfile(null);
-                setRole(null);
-            }
-            setLoading(false);
+        const { data: listener } = supabase.auth.onAuthStateChange(async (_event, session) => {
+            setSession(session);
+            if (session) await loadProfile(session.user.id);
+            else setProfile(null);
         });
 
         return () => listener.subscription.unsubscribe();
-    }, [loadProfile]);
+    }, []);
 
-    const user: User | null = session?.user ?? null;
-    const nomComplet =
-        profile?.nom_complet ||
-        (user?.user_metadata?.nom_complet as string | undefined) ||
-        (user?.email ? user.email.split('@')[0] : '');
-
-    const initials = getInitials(nomComplet, user?.email);
+    const displayName = profile?.nom_complet?.trim() || null;
+    const initials = displayName
+        ? displayName
+            .split(' ')
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((s) => s[0]?.toUpperCase())
+            .join('')
+        : null;
 
     return {
         session,
-        user,
         profile,
-        role,
+        role: profile?.role ?? null,
         loading,
         isAuthenticated: !!session,
-        isAdmin: role === 'admin',
-        nomComplet,
+        isAdmin: profile?.role === 'admin',
+        displayName,
         initials,
         refreshProfile: () => (session ? loadProfile(session.user.id) : Promise.resolve()),
     };

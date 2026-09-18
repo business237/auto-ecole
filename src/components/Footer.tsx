@@ -18,6 +18,7 @@ const NAV = [
   { to: '/formations', label: 'Formations' },
   { to: '/galerie', label: 'Galerie' },
   { to: '/contact', label: 'Contact' },
+  { to: '/suivre-ma-demande', label: 'Suivre ma demande' },
 ];
 
 export default function Footer() {

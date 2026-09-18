@@ -234,7 +234,7 @@ export default function HeroSlider3D() {
           style={{ transform: 'translateZ(50px)' }}
         >
           <Navigation className="h-3.5 w-3.5 text-white" />
-          <span className="text-xs font-extrabold text-white">Kribi • Dombe</span>
+          <span className="text-xs font-extrabold text-white">Kribi, Dombe - Derrière Bocom</span>
         </div>
       </div>
     </div>

@@ -1,51 +1,75 @@
-import { ArrowRight, GraduationCap, ClipboardList, Images, PhoneCall } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Hero from '@/components/Hero';
 import WhyPacifique from '@/components/WhyPacifique';
 import FAQ from '@/components/FAQ';
 import { SectionHeading } from '@/components/ui';
 import { useReveal } from '@/lib/hooks';
-
-const TEASERS = [
-    { to: '/a-propos', icon: GraduationCap, title: 'À propos', desc: "Pacifique, l'écosystème AFJANES et notre équipe." },
-    { to: '/formations', icon: ClipboardList, title: 'Nos formations', desc: 'Permis, tarifs détaillés et notre méthode.' },
-    { to: '/galerie', icon: Images, title: 'Galerie', desc: 'La vie chez Pacifique en images.' },
-    { to: '/contact', icon: PhoneCall, title: 'Contact', desc: 'Adresse, horaires et formulaire de contact.' },
-];
+import { useFormationsParCategorie } from '@/lib/useSiteData';
+import FormationCard from '@/components/FormationCard';
 
 export default function Home() {
     const { ref, visible } = useReveal<HTMLDivElement>();
+    const { categories = [], loading } = useFormationsParCategorie();
+    const featuredFormations = categories
+        .flatMap((category) => category.formations
+            .filter((formation) => formation.mis_en_avant)
+            .map((formation) => ({ formation, categoryTitle: category.titre })))
+        .sort((first, second) => first.formation.ordre - second.formation.ordre);
 
     return (
         <>
             <Hero />
             <WhyPacifique />
 
-            <section className="bg-white py-20 lg:py-28">
+            <section className="bg-pacifique-offwhite py-20 lg:py-28">
                 <div ref={ref} className="mx-auto max-w-7xl px-5 lg:px-8">
                     <div className={`reveal ${visible ? 'is-visible' : ''}`}>
-                        <SectionHeading eyebrow="Explorer" title="Tout savoir sur Pacifique" centered />
+                        <SectionHeading
+                            eyebrow="À la une"
+                            title="Nos permis en vedette"
+                            subtitle="Découvrez les formations que nous recommandons pour commencer votre parcours avec confiance."
+                            centered
+                        />
                     </div>
-                    <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                        {TEASERS.map((t) => {
-                            const Icon = t.icon;
-                            return (
-                                <Link
-                                    key={t.to}
-                                    to={t.to}
-                                    className="group flex flex-col rounded-3xl border border-gray-200/80 bg-white p-7 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl"
-                                >
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-pacifique-offwhite text-pacifique-navy-900 transition-colors group-hover:bg-pacifique-navy-900 group-hover:text-white">
-                                        <Icon className="h-6 w-6" />
+
+                    {loading ? (
+                        <div className="mt-16 flex justify-center">
+                            <div className="h-8 w-8 animate-spin rounded-full border-4 border-pacifique-blue-600 border-t-transparent" />
+                        </div>
+                    ) : featuredFormations.length === 0 ? (
+                        <p className="mt-16 text-center text-sm text-pacifique-navy-700/60">
+                            Les formations seront bientôt disponibles.
+                        </p>
+                    ) : (
+                        <div className="mt-16 flex gap-6 overflow-x-auto pb-4">
+                            {featuredFormations.map(({ formation, categoryTitle }, idx) => {
+                                return (
+                                    <div
+                                        key={formation.id}
+                                        className={`reveal min-w-[280px] flex-[0_0_280px] sm:min-w-[310px] sm:flex-[0_0_310px] lg:min-w-[300px] lg:flex-[0_0_300px] ${visible ? 'is-visible' : ''}`}
+                                        style={{ transitionDelay: `${idx * 80}ms` }}
+                                    >
+                                        <FormationCard
+                                            formation={formation}
+                                            categoryTitle={categoryTitle}
+                                            href={`/inscription?formation=${formation.id}`}
+                                            buttonLabel="S'inscrire"
+                                        />
                                     </div>
-                                    <h3 className="mt-5 font-display text-lg font-bold text-pacifique-navy-900">{t.title}</h3>
-                                    <p className="mt-2 text-sm text-pacifique-navy-700/70">{t.desc}</p>
-                                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-pacifique-blue-600">
-                                        Découvrir <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                    </span>
-                                </Link>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
+                    )}
+
+                    <div className={`reveal mt-12 flex justify-center ${visible ? 'is-visible' : ''}`}>
+                        <Link
+                            to="/permis"
+                            className="inline-flex items-center gap-2 rounded-2xl bg-pacifique-navy-900 px-8 py-4 text-sm font-bold text-white shadow-lg shadow-pacifique-navy-900/20 transition-all hover:-translate-y-0.5 hover:bg-pacifique-blue-600 hover:shadow-pacifique-blue-600/30 active:scale-[0.98]"
+                        >
+                            Voir tous nos permis
+                            <ArrowRight className="h-4 w-4" />
+                        </Link>
                     </div>
                 </div>
             </section>
